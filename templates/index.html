@@ -7,7 +7,7 @@
         <style>
             /* define style of table here */
             th {
-                width: 200px;
+                width: 50px;
                 padding: 5px;
                 font-size: small;
             }
@@ -22,7 +22,6 @@
         </style>
     </head>
     <body>
-        
         <script type="text/javascript">
             var nodes = [
                 {
@@ -110,7 +109,7 @@
                     num_correct: 1, 
                     ratio_correct: 0.05
                 }
-            ]
+            ];
 
             column_names = ["conditions", "number of samples", "number of correct samples", "ratio of correct samples"];
 
@@ -120,7 +119,7 @@
             var body = d3.select("table").append("tbody");
 
             head.selectAll("th").data(column_names).enter().append("th").text(function(d) { return d; });
-            
+
             // i want to create nodes.length number of rows
             // then for every row (tr), I want to insert four data (td) for nodes[i].condition, nodes[i].num_samples, etc
             body.selectAll("tr").data(nodes).enter().append("tr")
@@ -135,11 +134,6 @@
                         return "#fec3a6";
                     }
                 });
-            
-            
-            
-
-            
         </script>
     </body>
 </html>
