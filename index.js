@@ -86,18 +86,18 @@ var nodes = [
     }
 ];
 
-column_names = ["conditions", "number of samples", "number of correct samples", "ratio of correct samples"];
+node_columns = ["conditions", "number of samples", "number of correct samples", "ratio of correct samples"];
 
 // insert an html table to display the nodes of the decision tree
-var table = d3.select("body").append("table");
-var head = d3.select("table").append("thead").append("tr");
-var body = d3.select("table").append("tbody");
+var nodes_table = d3.select("body").append("table");
+var nodes_head = nodes_table.append("thead").append("tr");
+var nodes_body = nodes_table.append("tbody");
 
-head.selectAll("th").data(column_names).enter().append("th").text(function(d) { return d; });
+nodes_head.selectAll("th").data(node_columns).enter().append("th").text(function(d) { return d; });
 
 // I want to create nodes.length number of rows
 // then for every row (tr), I want to insert four data (td) for nodes[i].condition, nodes[i].num_samples, etc
-body.selectAll("tr").data(nodes).enter().append("tr")
+nodes_body.selectAll("tr").data(nodes).enter().append("tr")
     .selectAll("td").data(function(node) {
         return [node.conditions, node.num_samples, node.num_correct, node.ratio_correct]; 
     }).enter().append("td").text(function(d) { return d; })
@@ -110,4 +110,68 @@ body.selectAll("tr").data(nodes).enter().append("tr")
         }
     });
 
-// insert another hmtl table to display all the instances in the Titanic csv
+// will turn the strings in the csv file into numbers
+function strings_to_nums(d){
+    d.id = +d.id;
+    d.survived = +d.survived;
+    d.age = +d.age;
+    d.n_siblings_spouses = +d.n_siblings_spouses;
+    d.parch = + d.parch;
+    d.fare = +d.fare;
+    d.confidence = +d.confidence;
+    d.predicted = +d.predicted;
+    return d;
+}
+
+var instances = []
+d3.csv("titanic_test_results.csv", function(data) {
+    instances.push(strings_to_nums(data));
+}).then(function() { 
+    // console.log(instances); 
+    // console.log("instances[0]", instances[0]);
+    // each instances[i] is a row
+
+    // insert another hmtl table to display all the instances in the Titanic csv
+    instances_columns = ['id', 'survived', 'sex', 'age', 'number of siblings and spouses', 
+        'number of parents and children', 'fare', 'class', 'deck', 'port of embarkation', 
+        'alone', 'confidence', 'predicted', 'is prediction correct'];
+
+    var instances_table = d3.select("body").append("table");
+    var instances_head = instances_table.append("thead").append("tr");
+    var instances_body = instances_table.append("tbody");
+
+    instances_head.selectAll("th").data(instances_columns)
+    .enter().append("th").text(function(d) { return d; });
+    
+    instances_body.selectAll("tr").data(instances).enter().append("tr")
+    .selectAll("td").data(function(d) {
+        return [d.id, d.survived, d.sex, d.age, d.n_siblings_spouses, d.parch, 
+                d.fare, d.class, d.deck, d.embark_town, d.alone, d.confidence, 
+                d.predicted, d.is_prediction_correct]; 
+    }).enter().append("td").text(function(d) { return d; })
+});
+
+function display_data(data) {
+    if (data) {
+        d3.select("body").append("div").text(data);
+    }
+    else {
+        console.log("no data:", data);
+    }
+}
+
+document.getElementById('fileInput')
+    .addEventListener('change', function selectedFileChanged() {
+        if (this.files.length === 0) {
+            console.log('No file selected.');
+            return;
+        }
+        console.log(this.files);
+        const reader = new FileReader();
+        reader.onload = function fileReadCompleted() {
+            // when the reader is done, the content is in reader.result.
+            // console.log(reader.result);
+            display_data(reader.result);
+        };
+        reader.readAsText(this.files[0]);
+    });
