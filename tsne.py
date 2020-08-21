@@ -61,5 +61,5 @@ json_result = tsne_results.to_json(orient="index")
 parsed = json.loads(json_result)
 
 # write it to a file
-with open('data.txt', 'w') as outfile:
-    json.dump(json_result, outfile)
+with open('data2.json', 'w') as outfile:
+    json.dump(parsed, outfile)
