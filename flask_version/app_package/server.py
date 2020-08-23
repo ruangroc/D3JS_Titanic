@@ -1,17 +1,29 @@
 from flask import Blueprint, render_template, make_response, jsonify
+from app_package import db
+from sqlalchemy.sql import text
+import sqlite3
+
 import json
 import csv
 
 server = Blueprint('server', __name__)
-
+    
 @server.route('/')
 def index():
+    try:
+        db.session.query('1').from_statement(text('SELECT 1')).all()
+        print("can connect to db", flush=True)
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        print(error_text, flush=True)
     return render_template('index.html')
 
 @server.route('/get_nodes', methods=['GET'])
 def nodes():
     try:
         nodes = json.load(open('C:/Users/anita/Documents/D3JS_Titanic/flask_version/app_package/nodes.json', 'r'))
+        nodes_table = nodes
     except FileNotFoundError:
         print("file not found", flush=True)
     return jsonify(nodes)
@@ -42,6 +54,7 @@ def instances():
                 'is_prediction_correct': row[13]
             }
             csv_data.append(row_object)
+        instances_table = csv_data[1:]
     except FileNotFoundError:
         print("file not found", flush=True)
     return jsonify(csv_data[1:])
@@ -50,6 +63,7 @@ def instances():
 def tsne():
     try:
         tsne = json.load(open('C:/Users/anita/Documents/D3JS_Titanic/flask_version/app_package/data.json', 'r'))
+        tsne_data = tsne
     except FileNotFoundError:
         print("file not found", flush=True)
     return jsonify(tsne)

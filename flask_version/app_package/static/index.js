@@ -53,7 +53,7 @@ function create_instances_table(data) {
     'number of parents, children', 'fare', 'class', 'deck', 'port of embarkation', 
     'alone', 'confidence', 'predicted', 'is prediction correct'];
 
-    var instances_table = d3.select("#bottom_row").append("table")
+    var instances_table = d3.select("#bottom").append("table")
                             .attr("class", "table table-sm table-hover")
                             .attr("overflow-y", "scroll");
     var instances_head = instances_table.append("thead");

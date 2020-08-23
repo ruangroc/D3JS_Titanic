@@ -27,9 +27,8 @@
                 height: 400px;
                 margin: 15px;
                 padding: 0px;
-                border: 1px solid lightgray;
             }
-            .row, #bottom_row {
+            .row {
                 margin: 10px;
                 width: 95%;
             }
@@ -37,10 +36,21 @@
     </head>
     <body>
         <div class="row" id="top_row">
-            <div class="col-7 table-responsive" id="left"></div>
-            <div class="col" id="right"></div>
+            <div class="col-7">
+                <h3>Table of decision tree nodes</h3>
+                <div class="col table-responsive" id="left"></div>
+            </div>
+            <div class="col" id="right">
+                <h3>Scatterplot of tsne points</h3>
+            </div>
         </div>
-        <div class="col table-responsive" id="bottom_row"></div>
+        <div class="row" id="bottom_row">
+            <div>
+                <h3>Table of Titanic passengers</h3>
+                <div class=" col table-responsive" id="bottom"></div>
+            </div>
+        </div>
+        
         <script src="/static/index.js"></script>
         <!--Bootstrap Scripts-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
