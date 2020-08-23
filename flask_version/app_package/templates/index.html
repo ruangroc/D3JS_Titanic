@@ -11,16 +11,36 @@
             /* define style of table here */
             table {
                 border: 1px solid rgb(211, 207, 207);
+            }
+            th { 
+                position: sticky; 
+                top: 0;
+                background: #eee;
+            }
+            thead {
+                position: sticky; 
+                top: 0;
+                background: #eee;
+                border: 1px solid rgb(211, 207, 207);
+            }
+            .col {
+                height: 400px;
                 margin: 15px;
+                padding: 0px;
+                border: 1px solid lightgray;
+            }
+            .row, #bottom_row {
+                margin: 10px;
+                width: 95%;
             }
         </style>
     </head>
     <body>
         <div class="row" id="top_row">
-            <div class="col-7" id="left"></div>
+            <div class="col-7 table-responsive" id="left"></div>
             <div class="col" id="right"></div>
         </div>
-        <div class="col" id="bottom_row"></div>
+        <div class="col table-responsive" id="bottom_row"></div>
         <script src="/static/index.js"></script>
         <!--Bootstrap Scripts-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

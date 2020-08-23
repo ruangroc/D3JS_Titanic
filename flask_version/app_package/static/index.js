@@ -4,8 +4,9 @@ function create_nodes_table(data) {
     node_columns = ["conditions", "number of samples", "number of correct samples", "ratio of correct samples"];
 
     // insert an html table to display the nodes of the decision tree
-    var nodes_table = d3.select("#left").append("table").attr("class", "table table-sm table-hover");
-    var nodes_head = nodes_table.append("thead").append("tr");
+    var nodes_table = d3.select("#left").append("table")
+                        .attr("class", "table table-sm table-hover");
+    var nodes_head = nodes_table.append("thead");
     var nodes_body = nodes_table.append("tbody");
     
     nodes_head.selectAll("th").data(node_columns).enter().append("th").text(function(d) { return d; });
@@ -15,15 +16,7 @@ function create_nodes_table(data) {
     nodes_body.selectAll("tr").data(data).enter().append("tr")
         .selectAll("td").data(function(node) {
             return [node.conditions, node.num_samples, node.num_correct, node.ratio_correct]; 
-        }).enter().append("td").text(function(d) { return d; })
-        .style("background-color", function(d) {
-            if (d > 0.5 && d < 1) {
-                return "#b7e4c7";
-            }
-            else if (d < 1) {
-                return "#fec3a6";
-            }
-        });
+        }).enter().append("td").text(function(d) { return d; });
 }
 
 fetch('/get_nodes')
@@ -56,12 +49,14 @@ function strings_to_nums(d){
 function create_instances_table(data) {
     // console.log("made it into create instances table with data:", data);
 
-    instances_columns = ['id', 'survived', 'sex', 'age', 'number of siblings and spouses', 
-    'number of parents and children', 'fare', 'class', 'deck', 'port of embarkation', 
+    instances_columns = ['id', 'survived', 'sex', 'age', 'number of siblings, spouses', 
+    'number of parents, children', 'fare', 'class', 'deck', 'port of embarkation', 
     'alone', 'confidence', 'predicted', 'is prediction correct'];
 
-    var instances_table = d3.select("#bottom_row").append("table").attr("class", "table table-sm table-hover");
-    var instances_head = instances_table.append("thead").append("tr");
+    var instances_table = d3.select("#bottom_row").append("table")
+                            .attr("class", "table table-sm table-hover")
+                            .attr("overflow-y", "scroll");
+    var instances_head = instances_table.append("thead");
     var instances_body = instances_table.append("tbody");
 
     instances_head.selectAll("th").data(instances_columns)
