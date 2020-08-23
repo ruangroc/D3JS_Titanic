@@ -1,0 +1,86 @@
+[
+    {
+        "conditions": [" survived <= 0.5"],
+        "num_samples": 300,
+        "num_correct": 240,
+        "ratio_correct": 0.8
+    },
+    {
+        "conditions": [" survived <= 0.5", " sex <= 0.5"],
+        "num_samples": 182,
+        "num_correct": 161,
+        "ratio_correct": 0.88
+    },
+    {
+        "conditions": [" survived <= 0.5", " sex > 0.5", " deck <= 0.5"],
+        "num_samples": 162,
+        "num_correct": 159,
+        "ratio_correct": 0.98
+    },
+   {
+        "conditions": [" survived <= 0.5", " sex > 0.5", " deck > 0.5", " deck <= 3.5"],
+        "num_samples": 158,
+        "num_correct": 157,
+        "ratio_correct": 0.99
+    },
+    {
+        "conditions": [" survived <= 0.5", " sex > 0.5", " deck > 0.5", " deck <= 3.5", " deck <= 2.5"],
+        "num_samples": 17,
+        "num_correct": 16,
+        "ratio_correct": 0.94
+    },
+    {
+        "conditions": [" survived > 0.5", " sex <= 0.5"],
+        "num_samples": 118,
+        "num_correct": 79,
+        "ratio_correct": 0.67
+    },
+    {
+        "conditions": [" survived > 0.5", " sex <= 0.5", " age <= 58.5"],
+        "num_samples": 76,
+        "num_correct": 74,
+        "ratio_correct": 0.97
+    },
+    {
+        "conditions": [" survived > 0.5", " sex <= 0.5", " age <= 58.5", " class <= 1.5"],
+        "num_samples": 75,
+        "num_correct": 74,
+        "ratio_correct": 0.98
+    },
+    {
+        "conditions": [" survived > 0.5", " sex <= 0.5", " age <= 58.5", " class > 1.5", " age <= 33.5"],
+        "num_samples": 17,
+        "num_correct": 16,
+        "ratio_correct": 0.94
+    },
+    {
+        "conditions": [" survived > 0.5", " sex > 0.5", " parch <= 1.5"],
+        "num_samples": 42,
+        "num_correct": 5,
+        "ratio_correct": 0.12
+    },
+    {
+        "conditions": [" survived > 0.5", " sex > 0.5", " parch <= 1.5", " deck <= 5.0"],
+        "num_samples": 39,
+        "num_correct": 3,
+        "ratio_correct": 0.08
+    },
+    {
+        "conditions": [" survived > 0.5", " sex > 0.5", " parch <= 1.5", " deck <= 5.0", " fare <= 26.469"],
+        "num_samples": 19,
+        "num_correct": 3,
+        "ratio_correct": 0.16
+    },
+    {
+        "conditions": [" survived <= 0.5", " sex <= 0.5", " n_siblings_spouses <= 6.0"],
+        "num_samples": 20,
+        "num_correct": 2,
+        "ratio_correct": 0.1
+    },
+    {
+        "conditions": [" survived <= 0.5", " sex <= 0.5", " n_siblings_spouses <= 6.0", " n_siblings_spouses <= 2.0"],
+        "num_samples": 19,
+        "num_correct": 1, 
+        "ratio_correct": 0.05
+    }
+]
