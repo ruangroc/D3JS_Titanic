@@ -4,7 +4,7 @@ function create_nodes_table(data) {
     node_columns = ["conditions", "number of samples", "number of correct samples", "ratio of correct samples"];
 
     // insert an html table to display the nodes of the decision tree
-    var nodes_table = d3.select("body").append("table");
+    var nodes_table = d3.select("#left").append("table").attr("class", "table table-sm table-hover");
     var nodes_head = nodes_table.append("thead").append("tr");
     var nodes_body = nodes_table.append("tbody");
     
@@ -60,7 +60,7 @@ function create_instances_table(data) {
     'number of parents and children', 'fare', 'class', 'deck', 'port of embarkation', 
     'alone', 'confidence', 'predicted', 'is prediction correct'];
 
-    var instances_table = d3.select("body").append("table");
+    var instances_table = d3.select("#bottom_row").append("table").attr("class", "table table-sm table-hover");
     var instances_head = instances_table.append("thead").append("tr");
     var instances_body = instances_table.append("tbody");
 
@@ -95,7 +95,7 @@ function create_scatterplot(data) {
     if (data) {
         // create a basic scatterplot for the json data
         // source: https://www.d3-graph-gallery.com/graph/scatter_basic.html
-        var vis_div = d3.select("body").append("div");
+        var vis_div = d3.select("#right").append("div");
 
         // set the dimensions and margins of the graph
         var margin = {top: 10, right: 30, bottom: 30, left: 60};
