@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, make_response, jsonify
+from flask import Blueprint, render_template, make_response, jsonify, request
 from app_package import db
 from sqlalchemy.sql import text
 import sqlite3
@@ -141,3 +141,50 @@ def tsne():
     except FileNotFoundError:
         print("file not found", flush=True)
     return jsonify(tsne)
+
+@server.route('/filter_view', methods=['POST'])
+def filter_view():
+    node_info = request.get_json(force=True)
+
+    # need to fix the conditions
+    # there's no sex > 0.5, only 'male' or 'female', and similar
+    conditions = node_info['conditions']
+    num_conditions = len(node_info['conditions'])
+    for i, condition in enumerate(conditions):
+        if "sex <= 0.5" in condition:
+            conditions[i] = " sex = 'female'"
+        elif "sex > 0.5" in condition:
+            conditions[i] = " sex = 'male'"
+        elif "deck <= 0.5" in condition:
+            conditions[i] = " deck = 'A'"
+        elif "deck > 0.5" in condition:
+            conditions[i] = " deck != 'A'"
+        elif "deck <= 2.5" in condition:
+            conditions[i] = " (deck = 'A' OR deck = 'B' OR deck = 'C')"
+        elif "deck <= 3.5" in condition:
+            conditions[i] = " (deck = 'A' OR deck = 'B' OR deck = 'C' OR deck = 'D')"
+        elif "deck <= 5.0" in condition:
+            conditions[i] = " deck != 'unknown'"
+        elif "class <= 1.5" in condition:
+            conditions[i] = " (class = 'First' OR class = 'Second')"
+        elif "class > 1.5" in condition:
+            conditions[i] = "' class = 'Third'"
+
+    # construct the query
+    query = "SELECT * from instances JOIN tsne on instances.id = tsne.id WHERE"
+    i = 0
+    for condition in conditions:
+        i += 1
+        query += condition
+        if i != num_conditions:
+            query += " AND"
+        if i == num_conditions:
+            query += ";"
+
+    # connect to the db and execute the query
+    conn = sqlite3.connect('titanic.db')
+    c = conn.cursor()
+    c.execute(query)
+    fetched_instances = c.fetchall()
+    conn.close()
+    return make_response(jsonify(fetched_instances), 200)
