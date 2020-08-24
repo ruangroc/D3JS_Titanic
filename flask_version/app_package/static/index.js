@@ -33,19 +33,6 @@ fetch('/get_nodes')
     console.log("error:", error);
 });
 
-// will turn the strings in the csv file into numbers
-function strings_to_nums(d){
-    d.id = +d.id;
-    d.survived = +d.survived;
-    d.age = +d.age;
-    d.n_siblings_spouses = +d.n_siblings_spouses;
-    d.parch = + d.parch;
-    d.fare = +d.fare;
-    d.confidence = +d.confidence;
-    d.predicted = +d.predicted;
-    return d;
-}
-
 function create_instances_table(data) {
     // console.log("made it into create instances table with data:", data);
 
