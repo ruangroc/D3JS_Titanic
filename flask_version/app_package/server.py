@@ -168,10 +168,10 @@ def filter_view():
         elif "class <= 1.5" in condition:
             conditions[i] = " (class = 'First' OR class = 'Second')"
         elif "class > 1.5" in condition:
-            conditions[i] = "' class = 'Third'"
+            conditions[i] = " class = 'Third'"
 
     # construct the query
-    query = "SELECT * from instances JOIN tsne on instances.id = tsne.id WHERE"
+    query = "SELECT * from instances WHERE"
     i = 0
     for condition in conditions:
         i += 1

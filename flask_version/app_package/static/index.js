@@ -1,23 +1,9 @@
 /*************** Re-render the instances table and scatterplot ************/
 function rerender_instances_plot(data) {
-    console.log("rerendering function has this data:", data);
-
     // data = an array of arrays, each array representing a row
-    // the original create instances table expects an array of objects
-    // the original create scatterplot expects an object of objects
-    // maybe remove the original items, massage the data into objects, then call the original functions?
-    instances_data = []
     instances_objects = []
-    tsne_data = []
-    tsne_objects = {}
 
-    console.log("data length:", data.length);
-    for (var i = 0; i < data.length; i++) {
-        instances_data.push(data[i].slice(0,14));
-        tsne_data.push(data[i].slice(14,17));
-    }
-
-    for (passenger of instances_data) {
+    for (passenger of data) {
         passenger_object = {
             id: passenger[0],
             survived: passenger[1],
@@ -42,28 +28,25 @@ function rerender_instances_plot(data) {
     }
     // re-render it
     create_instances_table(instances_objects);
-
-    for (point of tsne_data) {
-        console.log("point of tsne_data:", point);
-        tsne_objects[String(point[0])] = {
-            'tsne1': point[1],
-            'tsne2': point[2]
+    
+    // change the points that are the highlight color (#EC6142)
+    // back to the normal color
+    var circles = document.getElementsByTagName('circle');
+    for (circle of circles) {
+        if (circle.style.fill == 'rgb(236, 97, 66)') {
+            circle.style.fill = 'rgb(105, 179, 162)';
         }
     }
-    console.log("tsne objects:", tsne_objects);
-    // delete existing svg
-    if (document.getElementById('vis_div')) {
-        document.getElementById('vis_div').remove();
+    // then change the color of the selected (returned) points
+    for (passenger of instances_objects) {
+        var select_statement = "circle:nth-child(" + String(passenger.id) + ")";
+        d3.select(select_statement).style("fill", "rgb(236, 97, 66)");
     }
-    // re-render it
-    create_scatterplot(tsne_objects);
-
 }
 /**************************************************************************/
 
 /******************* Create the nodes table upon start up *****************/
 function onNodeClicked(event) {
-    console.log('onNodeClicked event:', event);
     fetch('/filter_view', {
         method: 'POST',
         headers: {
@@ -75,7 +58,6 @@ function onNodeClicked(event) {
         return response.json();
     })
     .then(function(response) {
-        // console.log('filter view response:', response);
         rerender_instances_plot(response);
     })
     .catch(function(error) {
@@ -124,8 +106,6 @@ fetch('/get_nodes')
 
 /*************** Create the instances table upon start up *****************/
 function create_instances_table(data) {
-    // console.log("made it into create instances table with data:", data);
-
     instances_columns = ['id', 'survived', 'sex', 'age', 'number of siblings, spouses', 
     'number of parents, children', 'fare', 'class', 'deck', 'port of embarkation', 
     'alone', 'confidence', 'predicted', 'is prediction correct'];
@@ -148,7 +128,6 @@ function create_instances_table(data) {
     }).enter().append("td").text(function(d) { return d; });
 }
 
-
 fetch('/get_instances')
 .then(function(response) {
     return response.json();
@@ -168,8 +147,6 @@ fetch('/get_instances')
 
 /************** Create the tsne plot upon start up ************************/
 function create_scatterplot(data) {
-    // console.log("made it into create scatterplot with data:", data);
-
     if (data) {
         // create a basic scatterplot for the json data
         // source: https://www.d3-graph-gallery.com/graph/scatter_basic.html
@@ -186,6 +163,7 @@ function create_scatterplot(data) {
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
                     .append("g")
+                    .attr("id", "circles_group")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // Add X axis
@@ -203,7 +181,6 @@ function create_scatterplot(data) {
         svg.append("g")
             .call(d3.axisLeft(y));
 
-        // json_data = JSON.parse(data);
         var data_array = [];
         Object.values(data).forEach(val => data_array.push(val));
         
@@ -223,7 +200,6 @@ function create_scatterplot(data) {
     }
 }
 
-
 fetch('/get_tsne')
 .then(function(response) {
     return response.json();
@@ -238,15 +214,6 @@ fetch('/get_tsne')
 }).catch(function(error) {
     console.log("error:", error);
 });
-
-
 /**************************************************************************/
 
-
-
-/**************************************************************************/
-/**************************************************************************/
-
-/**************************************************************************/
-/**************************************************************************/
 
